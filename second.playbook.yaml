@@ -4,7 +4,9 @@
   tasks:
     - name: download at remote
       ansible.builtin.get_url:
-        url: http://example.com/path/file.conf
+        url: https://httpd.apache.org/docs/current/install.html
         dest: /etc/foo.conf
         mode: '0440'
+
+
 
