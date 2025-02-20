@@ -1,0 +1,5 @@
+- name: roboshop
+  hosts: localhosts
+  connection: local
+  roles:
+   - Frontend
