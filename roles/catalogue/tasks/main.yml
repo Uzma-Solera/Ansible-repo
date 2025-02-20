@@ -18,7 +18,7 @@
 
 - name: copy mongodb.rpoe.file
   ansible.builtin.copy:
-    src: mongodb.repo.file
+    src: mongo.repo
     dest: /etc/yum.repos.d/mongo.repo
 
 - name:  install mongosh
