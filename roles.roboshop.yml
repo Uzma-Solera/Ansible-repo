@@ -2,4 +2,4 @@
   hosts: localhosts
   connection: local
   roles:
-    - {{ component_name }}
+    - "{{ component_name }}"

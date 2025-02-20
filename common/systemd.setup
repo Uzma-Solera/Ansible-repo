@@ -1,0 +1,11 @@
+- name: systemd file
+  ansible.builtin.copy:
+    src: "{{ component_name }}.service"
+    dest: /etc/systemd/system/{{ component_name }}.service
+
+- name: Start service nginx
+  ansible.builtin.service:
+    name: "{{ component_name }}"
+    state: restarted
+    enable: yes
+    daemon_reload: yes

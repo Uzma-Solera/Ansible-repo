@@ -1,0 +1,32 @@
+- name: disable default nodejs and enable nodejs:20
+  ansible.builtin.shell: dnf module disable nodejs -y  ; dnf module enable nodejs:20 -y
+
+- name: install nodejs
+  ansible.builtin.dnf:
+    name: nodejs
+    state: installed
+
+- name: load artifacts.download
+  ansible.builtin.include_role:
+    name: common
+    task_name: artifacts.download
+
+- name: Install NodeJs Dependencies
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /app
+
+- name: copy mongodb.rpoe.file
+  ansible.builtin.copy:
+    src: mongodb.repo.file
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name:  install mongosh
+  ansible.builtin.dnf:
+    name: mongodb-mongosh
+    state: installed
+
+- name: load artifacts.download
+  ansible.builtin.include_role:
+    name: common
+    task_name: systemd.setup
