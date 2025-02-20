@@ -8,9 +8,10 @@
     state: installed
 
 - name: copy nginx.conf file
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: nginx.conf
     dest: /etc/nginx/nginx.conf
+
 
 - name: Remove file (delete file)
   ansible.builtin.file:
