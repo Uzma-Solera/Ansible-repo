@@ -5,7 +5,7 @@
 - name: install nginx
   ansible.builtin.dnf:
     name: nginx
-    status: installed
+    state: installed
 
 - name: copy nginx.conf file
   ansible.builtin.copy:
