@@ -2,4 +2,4 @@
   hosts: localhosts
   connection: local
   roles:
-    - Frontend
+    - {{ component_name }}
