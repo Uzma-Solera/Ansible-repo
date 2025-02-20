@@ -26,6 +26,9 @@
     name: mongodb-mongosh
     state: installed
 
+- name: Load Master Data
+  ansible.builtin.shell: mongosh --host mongodb-{{ env }}.rdevopsb83.online </app/db/master-data.js
+
 - name: load artifacts.download
   ansible.builtin.include_role:
     name: common
