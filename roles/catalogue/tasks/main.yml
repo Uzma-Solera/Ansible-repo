@@ -9,7 +9,7 @@
 - name: load artifacts.download
   ansible.builtin.include_role:
     name: common
-    task_name: artifacts.download
+    tasks_from: artifacts.download
 
 - name: Install NodeJs Dependencies
   ansible.builtin.shell: npm install
