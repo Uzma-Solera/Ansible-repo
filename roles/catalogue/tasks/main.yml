@@ -1,36 +1,17 @@
-- name: disable default nodejs and enable nodejs:20
-  ansible.builtin.shell: dnf module disable nodejs -y  ; dnf module enable nodejs:20 -y
-
-- name: install nodejs
-  ansible.builtin.dnf:
-    name: nodejs
-    state: installed
-
-- name: load artifacts.download
+- name: include nodejs tasks
   ansible.builtin.include_role:
     name: common
-    tasks_from: artifacts.download
+    tasks_from: nodejs.yml
 
-- name: Install NodeJs Dependencies
-  ansible.builtin.shell: npm install
-  args:
-    chdir: /app
-
-- name: copy mongodb.rpoe.file
-  ansible.builtin.copy:
+- name: copy mongodb repo file
+  ansible.builtin.template:
     src: mongo.repo
     dest: /etc/yum.repos.d/mongo.repo
 
-- name:  install mongosh
+- name: install mongosh
   ansible.builtin.dnf:
-    name: mongodb-mongosh
+    install: mongodb-mongosh
     state: installed
 
-- name: Load Master Data
-  ansible.builtin.shell: mongosh --host 172.31.95.48 </app/db/master-data.js
-
-
-- name: load artifacts.download
-  ansible.builtin.include_role:
-    name: common
-    task_name: systemd.setup
+- name: master data load
+  ansible.builtin.shell: mongosh --host MONGODB-SERVER-IPADDRESS </app/db/master-data.js

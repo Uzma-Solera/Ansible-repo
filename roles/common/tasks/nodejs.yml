@@ -1,0 +1,21 @@
+- name: disable default nodejs and enable nodejs 20
+  ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:20 -y
+
+
+- name: install nodejs
+  ansible.builtin.dnf:
+    name: nodejs
+    state: installed
+
+- name: Include task list in play
+    ansible.builtin.include_tasks:
+      file: artifact_download.yml
+
+- name: Change the working directory to chdir/ before executing the command
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /app
+
+- name: Include task list in play
+    ansible.builtin.include_tasks:
+      file: systemd.setup.yml
