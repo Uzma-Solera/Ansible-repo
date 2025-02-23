@@ -10,7 +10,7 @@
 
 - name: install mongosh
   ansible.builtin.dnf:
-    install: mongodb-mongosh
+    name: mongodb-mongosh
     state: installed
 
 - name: master data load
