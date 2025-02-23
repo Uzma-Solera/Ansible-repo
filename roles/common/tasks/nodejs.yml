@@ -9,7 +9,7 @@
 
 - name: Include task list in play
   ansible.builtin.include_tasks:
-      file: artifact_download.yml
+      file: artifacts.download.yml
 
 - name: Change the working directory to chdir/ before executing the command
   ansible.builtin.shell: npm install
