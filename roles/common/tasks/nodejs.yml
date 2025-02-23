@@ -8,7 +8,7 @@
     state: installed
 
 - name: Include task list in play
-    ansible.builtin.include_tasks:
+  ansible.builtin.include_tasks:
       file: artifact_download.yml
 
 - name: Change the working directory to chdir/ before executing the command
@@ -17,5 +17,5 @@
     chdir: /app
 
 - name: Include task list in play
-    ansible.builtin.include_tasks:
+  ansible.builtin.include_tasks:
       file: systemd.setup.yml

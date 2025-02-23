@@ -14,4 +14,4 @@
 
 - name: Include task systemd_setup
     ansible.builtin.include_tasks:
-      file: systemd.setup.yml
+      file: systemd.setup.yml.yml
