@@ -1,0 +1,11 @@
+- name: print the output
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: run uptime command
+      ansible.builtin.shell: uptime
+      register: output
+
+    - name: print the output
+      ansible.builtin.debug:
+        msg: "{{ output }}"
