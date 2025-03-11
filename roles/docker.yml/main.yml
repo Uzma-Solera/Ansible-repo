@@ -1,0 +1,38 @@
+- name: download repo of docker
+  ansible.builtin.get_url:
+    src:  https://download.docker.com/linux/rhel/docker-ce.repo
+    dest: /etc/yum.repos.d/docker repo
+
+- name: install docker
+  ansible.builtin.dnf:
+    name:
+      -docker-ce 
+      -docker-ce-cli 
+      -containerd.io 
+      -docker-buildx-plugin 
+      -docker-compose-plugin
+    state: installed
+
+
+- name: get secret
+  ansible.builtin.set_fact:
+    components_secrets: "{{ lookup('community.hashi_vault.hashi_vault', 'roboshop-{{ env }}/data/{{ component }} token={{ vault_token }} url=http://vault-internal.uzma83.shop:8200') }}"
+  vars:
+    component: {{ component_name | regex-replace('-docker','')}}
+
+- name: create secret
+  ansible.builtin.lineinfile:
+    path: /opt/{{ component }}.env
+    line: "{{ item.key}}={{ item.value }}"
+    create: yes
+  loop: "{{ component_secrets|dict2items }}"
+
+- name: run the container
+  community.docker.docker_container:
+    name: {{ component}}
+    image: public.ecr.aws/w8x4g9h7/roboshop-v3/{{ component }}
+    state: started
+    recreate: yes
+    ports:
+      -{{ app_port }}:{{ app_port }}
+    env_file: /opt/{{ component }}.env

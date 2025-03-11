@@ -1,0 +1,14 @@
+[Unit]
+Description={{ component_name | title }}
+
+[Service]
+User=roboshop
+{% for item in component_secrets|dict2items %}
+Environment={{ item.key }}={{ item.value }}
+{% endfor %}
+ExecStart=/bin/java -jar /app/{{ component_name }}.jar
+SyslogIdentifier={{ component_name }}
+
+
+[Install]
+WantedBy=multi-user.target

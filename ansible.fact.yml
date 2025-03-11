@@ -5,3 +5,11 @@
     - name: print a fact
       ansible.builtin.debug:
         msg: "{{ ansible_distribution }}"
+
+- name: print the fact
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: print the fact
+      ansible.builtin.debug:
+        msg: "{{ ansible_facts['nodename'] }}"

@@ -1,0 +1,6 @@
+- name: include roll
+  ansible.builtin.include_role:
+    role: common
+    task_from: docker.yml
+  vars:
+    app_port: 8080
