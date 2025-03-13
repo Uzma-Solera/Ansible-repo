@@ -13,12 +13,20 @@
       -docker-compose-plugin
     state: installed
 
+- name: start docker
+  ansible.builtin.systemd_services:
+      name: docker
+      state: started
+      enabled: yes
+
+
 
 - name: get secret
   ansible.builtin.set_fact:
     components_secrets: "{{ lookup('community.hashi_vault.hashi_vault', 'roboshop-{{ env }}/data/{{ component }} token={{ vault_token }} url=http://vault-internal.uzma83.shop:8200') }}"
+    component: "{{ component | regex_replace('-docker', '') }}"
   vars:
-    component: {{ component_name | regex-replace('-docker','')}}
+    component: "{{ component_name | regex_replace('-docker', '') }}"
 
 - name: create secret
   ansible.builtin.lineinfile:
@@ -29,10 +37,10 @@
 
 - name: run the container
   community.docker.docker_container:
-    name: {{ component}}
+    name: "{{ component}}"
     image: public.ecr.aws/w8x4g9h7/roboshop-v3/{{ component }}
     state: started
     recreate: yes
     ports:
-      -{{ app_port }}:{{ app_port }}
+      - "{{ app_port }}:{{ app_port }}"
     env_file: /opt/{{ component }}.env
